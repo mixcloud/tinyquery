@@ -963,7 +963,7 @@ class NumericArgReduceFunction(AggregateFunction):
             # is usually to return NULL if any arguments are NULL.
             if any(arg is None for arg in args):
                 return None
-            return reduce(self.reducer, args)
+            return functools.reduce(self.reducer, args)
 
         values = [apply(*vals)
                   for vals in zip(*[col.values for col in columns])]
