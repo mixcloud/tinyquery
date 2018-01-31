@@ -7,6 +7,8 @@ This can be used in place of the value returned by apiclient.discovery.build().
 import functools
 import json
 
+import six
+
 
 class TinyQueryApiClient(object):
     def __init__(self, tq_service):
@@ -232,7 +234,7 @@ def schema_from_table(table):
 def rows_from_table(table):
     """Given a tinyquery.Table, build an API-compatible rows object."""
     result_rows = []
-    for i in xrange(table.num_rows):
+    for i in six.moves.xrange(table.num_rows):
         field_values = [{'v': str(col.values[i])}
                         for col in table.columns.values()]
         result_rows.append({
