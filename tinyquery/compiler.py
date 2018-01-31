@@ -112,9 +112,9 @@ class Compiler(object):
             elif (field.expr and isinstance(field.expr, tq_ast.ColumnId) and
                   field.expr.name.endswith('.*')):
                 prefix = field.expr.name[:-len('.*')]
-                record_star_fields = filter(
-                    lambda f: f.alias.startswith(prefix),
-                    star_select_fields)
+                record_star_fields = [f
+                                      for f in star_select_fields
+                                      if f.alias.startswith(prefix)]
                 result_fields.extend(record_star_fields)
             else:
                 result_fields.append(field)

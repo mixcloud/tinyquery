@@ -362,9 +362,9 @@ class CoalesceFunction(ScalarFunction):
         rows = zip(*[col.values for col in cols])
 
         def first_nonnull(row):
-            result = filter(lambda x: x is not None, row)
-            if result:
-                return result[0]
+            for x in row:
+                if x is not None:
+                    return x
             return None
         values = map(first_nonnull, rows)
         return context.Column(type=result_type, mode=tq_modes.NULLABLE,
@@ -617,8 +617,7 @@ class MinMaxFunction(AggregateFunction):
     def _evaluate(self, num_rows, column):
         return context.Column(type=self.check_types(column.type),
                               mode=tq_modes.NULLABLE,
-                              values=[self.func(filter(lambda x: x is not None,
-                                                       column.values))])
+                              values=[self.func([x for x in column.values if x is not None])])
 
 
 class SumFunction(AggregateFunction):
@@ -1020,9 +1019,11 @@ class JSONExtractFunction(ScalarFunction):
             raise ValueError(
                 'Invalid json path expression. Cannot end in ".".')
         prop_name_plus = json_path[1:]
-        next_separator_positions = filter(
-            lambda pos: pos != -1,
-            [prop_name_plus.find('.'), prop_name_plus.find('[')])
+        next_separator_positions = [
+            pos
+            for pos in [prop_name_plus.find('.'), prop_name_plus.find('[')]
+            if pos != -1
+        ]
 
         if next_separator_positions:
             end_idx = min(next_separator_positions)

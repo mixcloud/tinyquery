@@ -115,9 +115,8 @@ def mask_context(context, mask):
     # behavior as function evaluation on repeated fields.  Fix.
     if mask.mode == tq_modes.REPEATED:
         num_rows = len(
-            filter(
-                None,
-                (len(filter(None, row)) for row in mask.values)))
+            [r for r in (any(row) for row in mask.values) if r]
+        )
         new_columns = collections.OrderedDict()
         for col_name, col in context.columns.iteritems():
             if col.mode == tq_modes.REPEATED:
@@ -184,7 +183,7 @@ def mask_context(context, mask):
         orig_column_values = [
             col.values for col in context.columns.itervalues()]
         mask_values = mask.values
-        num_rows = len(filter(None, mask.values))
+        num_rows = len([v for v in mask.values if v])
         new_values = [
             Column(
                 type=col.type,
