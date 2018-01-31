@@ -3,6 +3,8 @@ from __future__ import absolute_import
 import collections
 import re
 
+import six
+
 from tinyquery import exceptions
 from tinyquery import tq_types
 from tinyquery import typed_ast
@@ -58,8 +60,8 @@ class TypeContext(collections.namedtuple(
         """Given just the columns field, fill in alias information."""
         for (table_name, col_name), col_type in full_columns.iteritems():
             if table_name is not None:
-                cls.assert_type(table_name, basestring)
-            cls.assert_type(col_name, basestring)
+                cls.assert_type(table_name, six.string_types)
+            cls.assert_type(col_name, six.string_types)
             cls.assert_type(col_type, tq_types.TYPE_TYPE)
 
         aliases = {}

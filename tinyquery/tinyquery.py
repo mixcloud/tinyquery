@@ -4,6 +4,8 @@ from __future__ import absolute_import
 import collections
 import json
 
+import six
+
 from tinyquery import compiler
 from tinyquery import context
 from tinyquery import evaluator
@@ -93,7 +95,7 @@ class TinyQuery(object):
             elif mode == tq_modes.REPEATED:
                 return [cast_function(x) for x in value]
             else:
-                if isinstance(value, str):
+                if isinstance(value, six.binary_type):
                     return cast_function(value.decode('utf-8'))
                 else:
                     return cast_function(value)
@@ -381,7 +383,7 @@ class Table(object):
     def __init__(self, name, num_rows, columns):
         assert isinstance(columns, collections.OrderedDict)
         for col_name, column in columns.iteritems():
-            assert isinstance(col_name, basestring)
+            assert isinstance(col_name, six.string_types)
             assert len(column.values) == num_rows, (
                 'Column %s had %s rows, expected %s.' % (
                     col_name, len(column.values), num_rows))
