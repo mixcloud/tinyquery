@@ -265,8 +265,7 @@ class Compiler(object):
             [table_expr.base],
             (join_part.table_expr for join_part in table_expr.join_parts)
         )
-        compiled_result = map(self.compile_joined_table,
-                              table_expressions)
+        compiled_result = [self.compile_joined_table(x) for x in table_expressions]
         compiled_table_exprs, compiled_aliases = zip(*compiled_result)
         type_contexts = [compiled_table.type_ctx
                          for compiled_table in compiled_table_exprs]

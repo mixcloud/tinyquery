@@ -89,7 +89,7 @@ class TinyQuery(object):
             if value is None:
                 return None
             elif mode == tq_modes.REPEATED:
-                return map(cast_function, value)
+                return [cast_function(x) for x in value]
             else:
                 if isinstance(value, str):
                     return cast_function(value.decode('utf-8'))
