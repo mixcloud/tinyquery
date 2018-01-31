@@ -1,6 +1,8 @@
 import collections
 import re
 
+import six
+
 import compiler
 import tq_types
 import typed_ast
@@ -56,8 +58,8 @@ class TypeContext(collections.namedtuple(
         """Given just the columns field, fill in alias information."""
         for (table_name, col_name), col_type in full_columns.iteritems():
             if table_name is not None:
-                cls.assert_type(table_name, tq_types.STRING_TYPE)
-            cls.assert_type(col_name, tq_types.STRING_TYPE)
+                cls.assert_type(table_name, six.text_type)
+            cls.assert_type(col_name, six.text_type)
             cls.assert_type(col_type, tq_types.TYPE_TYPE)
 
         aliases = {}

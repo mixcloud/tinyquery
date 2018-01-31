@@ -7,6 +7,8 @@ This step has a number of responsibilities:
 import collections
 import itertools
 
+import six
+
 import parser
 import runtime
 import tq_ast
@@ -467,7 +469,7 @@ class Compiler(object):
             return typed_ast.Literal(expr.value, tq_types.INT)
         if isinstance(expr.value, float):
             return typed_ast.Literal(expr.value, tq_types.FLOAT)
-        elif isinstance(expr.value, tq_types.STRING_TYPE):
+        elif isinstance(expr.value, six.text_type):
             return typed_ast.Literal(expr.value, tq_types.STRING)
         elif expr.value is None:
             return typed_ast.Literal(expr.value, tq_types.NONETYPE)

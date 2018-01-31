@@ -1,10 +1,7 @@
 """Defines the valid types. Currently we just uses strings to identify them.
 """
-import sys
-
 import arrow
-
-PY3 = sys.version_info[0] == 3
+import six
 
 # TODO(Samantha): Structs.
 
@@ -24,12 +21,11 @@ CAST_FUNCTION_MAP = {
     INT: int,
     FLOAT: float,
     BOOL: bool,
-    STRING: str if PY3 else unicode,
+    STRING: six.text_type,
     TIMESTAMP: lambda val: arrow.get(val).to('UTC').naive,
     NONETYPE: lambda _: None,
     'null': lambda _: None
 }
 DATETIME_TYPE_SET = set([INT, STRING, TIMESTAMP])
 
-BINARY_TYPE = bytes if PY3 else str
-TYPE_TYPE = STRING_TYPE = str if PY3 else basestring
+TYPE_TYPE = six.string_types
