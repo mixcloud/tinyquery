@@ -93,7 +93,7 @@ class Compiler(object):
         """
         table_ctx = table_expr.type_ctx
         star_select_fields = []
-        for table_name, col_name in table_ctx.columns.iterkeys():
+        for table_name, col_name in table_ctx.columns:
             if table_name is not None:
                 col_ref = table_name + '.' + col_name
             else:

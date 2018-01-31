@@ -72,7 +72,7 @@ def context_from_table(table, type_context):
     any_column = table.columns.itervalues().next()
     new_columns = collections.OrderedDict([
         (column_name, column)
-        for (column_name, column) in zip(type_context.columns.iterkeys(),
+        for (column_name, column) in zip(type_context.columns,
                                          table.columns.itervalues())
     ])
     return Context(len(any_column.values), new_columns, None)
@@ -83,7 +83,7 @@ def context_with_overlayed_type_context(context, type_context):
     any_column = context.columns.itervalues().next()
     new_columns = collections.OrderedDict([
         (column_name, column)
-        for (column_name, column) in zip(type_context.columns.iterkeys(),
+        for (column_name, column) in zip(type_context.columns,
                                          context.columns.itervalues())
     ])
     return Context(len(any_column.values), new_columns, None)
@@ -193,7 +193,7 @@ def mask_context(context, mask):
             for col, values in zip(context.columns.itervalues(),
                                    orig_column_values)]
         new_columns = collections.OrderedDict([
-            (name, col) for name, col in zip(context.columns.iterkeys(),
+            (name, col) for name, col in zip(context.columns,
                                              new_values)])
 
     return Context(

@@ -199,7 +199,7 @@ class TinyQuery(object):
     def get_table_names_for_dataset(self, dataset):
         # TODO(alan): Improve this to use a more first-class dataset structure.
         return [full_table[len(dataset + '.'):]
-                for full_table in self.tables_by_name.iterkeys()
+                for full_table in self.tables_by_name
                 if full_table.startswith(dataset + '.')]
 
     def get_all_table_info_in_dataset(self, project_id, dataset):
