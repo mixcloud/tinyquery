@@ -469,7 +469,7 @@ class Compiler(object):
             return typed_ast.Literal(expr.value, tq_types.INT)
         if isinstance(expr.value, float):
             return typed_ast.Literal(expr.value, tq_types.FLOAT)
-        elif isinstance(expr.value, six.text_type):
+        elif isinstance(expr.value, six.string_types):
             return typed_ast.Literal(expr.value, tq_types.STRING)
         elif expr.value is None:
             return typed_ast.Literal(expr.value, tq_types.NONETYPE)

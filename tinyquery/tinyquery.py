@@ -381,7 +381,7 @@ class Table(object):
     def __init__(self, name, num_rows, columns):
         assert isinstance(columns, collections.OrderedDict)
         for col_name, column in columns.iteritems():
-            assert isinstance(col_name, six.text_type)
+            assert isinstance(col_name, six.string_types)
             assert len(column.values) == num_rows, (
                 'Column %s had %s rows, expected %s.' % (
                     col_name, len(column.values), num_rows))
