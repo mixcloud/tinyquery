@@ -707,7 +707,7 @@ class QuantilesFunction(AggregateFunction):
         # quantile, so we need one more set of brackets than you might expect.
         values = [[
             sorted_args[
-                min(len(sorted_args) * i / (num_quantiles - 1),
+                min(len(sorted_args) * i // (num_quantiles - 1),
                     len(sorted_args) - 1)
             ] for i in six.moves.xrange(num_quantiles)
         ]]
