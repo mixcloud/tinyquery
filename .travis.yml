@@ -5,5 +5,5 @@ python:
 install:
   - python setup.py install
 script:
-  - python -m unittest discover -s tinyquery -p "*_test.py"
+  - python -m unittest discover -p "*_test.py"
 
