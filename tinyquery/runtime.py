@@ -581,6 +581,18 @@ class InFunction(ScalarFunction):
                               values=values)
 
 
+class NotInFunction(ScalarFunction):
+    def check_types(self, arg1, *arg_types):
+        return tq_types.BOOL
+
+    def _evaluate(self, num_rows, arg1, *other_args):
+        values = [val1 not in val_list
+                  for val1, val_list in zip(arg1.values,
+                                            zip(*[x.values for x in other_args]))]
+        return context.Column(type=tq_types.BOOL, mode=tq_modes.NULLABLE,
+                              values=values)
+
+
 class ConcatFunction(AggregateFunction):
     def check_types(self, *arg_types):
         if any(arg_type != tq_types.STRING for arg_type in arg_types):
@@ -1173,6 +1185,7 @@ _FUNCTIONS = {
     'string': StringFunction(),
     'pow': ArithmeticOperator(lambda a, b: a ** b),
     'now': NoArgFunction(lambda: int(time.time() * 1000000)),
+    'not in': NotInFunction(),
     'in': InFunction(),
     'if': IfFunction(),
     'ifnull': IfNullFunction(),

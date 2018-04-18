@@ -366,6 +366,11 @@ def p_arg_list(p):
         assert False, 'Unexpected number of captured tokens.'
 
 
+def p_expression_not_in(p):
+    """expression : expression NOT IN LPAREN constant_list RPAREN"""
+    p[0] = tq_ast.FunctionCall('not in', [p[1]] + p[5])
+
+
 def p_expression_in(p):
     """expression : expression IN LPAREN constant_list RPAREN"""
     p[0] = tq_ast.FunctionCall('in', [p[1]] + p[4])

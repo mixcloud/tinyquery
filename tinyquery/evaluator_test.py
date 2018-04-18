@@ -939,6 +939,15 @@ class EvaluatorTest(unittest.TestCase):
             ])
         )
 
+    def test_not_in_literals(self):
+        self.assert_query_result(
+            'SELECT 2 NOT IN (1, 2, 3), 4 not in (1, 2, 3)',
+            self.make_context([
+                ('f0_', tq_types.BOOL, [False]),
+                ('f1_', tq_types.BOOL, [True]),
+            ])
+        )
+
     def test_literals_when_no_rows_present(self):
         """Check we handle providing a literal when there are no rows.
 
