@@ -1334,6 +1334,7 @@ _FUNCTIONS = {
             lambda dt: dt.year,
             return_type=tq_types.INT),
         TimestampFunction()),
+    'replace': ReplaceFunction(),
     'json_extract': JSONExtractFunction(),
     'json_extract_scalar': JSONExtractFunction(scalar=True),
 }
