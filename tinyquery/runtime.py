@@ -1011,6 +1011,20 @@ class NumericArgReduceFunction(AggregateFunction):
             values=values)
 
 
+class ReplaceFunction(ScalarFunction):
+    def check_types(self, *arg_types):
+        if any(arg_type != tq_types.STRING for arg_type in arg_types):
+            raise TypeError('REPLACE only takes string arguments.')
+        return tq_types.STRING
+
+    def _evaluate(self, num_rows, values, old, new):
+        replace_fn = pass_through_none(
+                lambda s: s.replace(old, new))
+        values = [replace_fn(x) for x in values.values]
+        return context.Column(tq_types.STRING, tq_modes.NULLABLE,
+                              values=values)
+
+
 class JSONExtractFunction(ScalarFunction):
     """Extract from a JSON string based on a JSONPath expression.
 

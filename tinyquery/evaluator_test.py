@@ -1339,6 +1339,11 @@ class EvaluatorTest(unittest.TestCase):
             self.make_context([
                 ('f0_', tq_types.INT, [1262304000000000])]))
 
+    def test_replace(self):
+        self.assert_query_result(
+            "SELECT REPLACE(str, 'o', 'e') FROM string_table_with_null",
+            self.make_context([('f0_', tq_types.STRING, ["helle", "werld", null])]))
+
     def test_first(self):
         # Test over the equivalent of a GROUP BY
         self.assert_query_result(
