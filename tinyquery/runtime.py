@@ -212,7 +212,7 @@ class ComparisonOperator(ScalarFunction):
             if other_column.type == tq_types.STRING:
                 # Convert that string to datetime if we can.
                 try:
-                    converted = [arrow.get(x).to('UTC').native
+                    converted = [arrow.get(x).to('UTC').naive
                                  for x in other_column.values]
                 except:
                     raise TypeError('Invalid comparison on timestamp, '
@@ -693,7 +693,7 @@ class CountDistinctFunction(AggregateFunction):
                               values=[len(set(values) - set([None]))])
 
 
-class GroupConcatUnquotedFunction(AggregateFunction):
+class StringAggFunction(AggregateFunction):
     def check_types(self, *arg_types):
         return tq_types.STRING
 
@@ -1347,7 +1347,8 @@ _AGGREGATE_FUNCTIONS = {
     'count': CountFunction(),
     'avg': AvgFunction(),
     'count_distinct': CountDistinctFunction(),
-    'group_concat_unquoted': GroupConcatUnquotedFunction(),
+    'string_agg': StringAggFunction(),
+    'group_concat_unquoted': StringAggFunction(),
     'stddev_samp': StddevSampFunction(),
     'quantiles': QuantilesFunction(),
     'first': FirstFunction(),
