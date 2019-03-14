@@ -1307,6 +1307,11 @@ class EvaluatorTest(unittest.TestCase):
             'SELECT STRFTIME_UTC_USEC(1274259481071200, "%Y-%m-%d")',
             self.make_context([
                 ('f0_', tq_types.STRING, ['2010-05-19'])]))
+        
+        self.assert_query_result(
+            'SELECT FORMAT_TIMESTAMP(TIMESTAMP("2015-01-02 00:00:00"), "%Y-%m-%d")',
+            self.make_context([
+                ('f0_', tq_types.STRING, ['2015-01-02'])]))
 
         self.assert_query_result(
             'SELECT USEC_TO_TIMESTAMP(1349053323000000)',
