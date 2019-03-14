@@ -1250,6 +1250,7 @@ _FUNCTIONS = {
             lambda dt: int(dt.strftime('%j'), 10),
             return_type=tq_types.INT),
         TimestampFunction()),
+    'format_timestamp': StrftimeFunction(),
     'format_utc_usec': Compose(
         TimestampExtractFunction(
             lambda dt: dt.strftime('%Y-%m-%d %H:%M:%S.%f'),
