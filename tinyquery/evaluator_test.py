@@ -1309,7 +1309,7 @@ class EvaluatorTest(unittest.TestCase):
                 ('f0_', tq_types.STRING, ['2010-05-19'])]))
         
         self.assert_query_result(
-            'SELECT FORMAT_TIMESTAMP(TIMESTAMP("2015-01-02 00:00:00"), "%Y-%m-%d")',
+            'SELECT FORMAT_TIMESTAMP("%Y-%m-%d", TIMESTAMP("2015-01-02 00:00:00"))',
             self.make_context([
                 ('f0_', tq_types.STRING, ['2015-01-02'])]))
 

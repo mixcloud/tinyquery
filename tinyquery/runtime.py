@@ -981,6 +981,23 @@ class StrftimeFunction(ScalarFunction):
                               values=values)
 
 
+class FormatTimestampFunction(ScalarFunction):
+    def check_types(self, type1, type2):
+        if not (type2 in tq_types.DATETIME_TYPE_SET and
+                type1 == tq_types.STRING):
+            raise TypeError('Expected a string and a date, got %s.' % (
+                [type1, type2]))
+        return tq_types.STRING
+
+    def _evaluate(self, num_rows, formats, unix_timestamps):
+        format_str = _ensure_literal(formats.values)
+        timestamps = TimestampFunction().evaluate(num_rows, unix_timestamps)
+        convert = pass_through_none(lambda ts: ts.strftime(format_str))
+        values = [convert(x) for x in timestamps.values]
+        return context.Column(type=tq_types.STRING, mode=tq_modes.NULLABLE,
+                              values=values)
+
+
 class NumericArgReduceFunction(AggregateFunction):
     def __init__(self, reducer):
         self.reducer = reducer
@@ -1250,7 +1267,7 @@ _FUNCTIONS = {
             lambda dt: int(dt.strftime('%j'), 10),
             return_type=tq_types.INT),
         TimestampFunction()),
-    'format_timestamp': StrftimeFunction(),
+    'format_timestamp': FormatTimestampFunction(),
     'format_utc_usec': Compose(
         TimestampExtractFunction(
             lambda dt: dt.strftime('%Y-%m-%d %H:%M:%S.%f'),
